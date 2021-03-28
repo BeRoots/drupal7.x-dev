@@ -1,0 +1,15 @@
+{
+    "name": "beroots/drupal7.x",
+    "description": "A development drupal 7.x project",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastien Deschamps",
+            "email": "sdx007.com@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "drush/drush": "9.*"
+    }
+}
