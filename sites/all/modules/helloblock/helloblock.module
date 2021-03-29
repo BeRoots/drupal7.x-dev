@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Simple block module to say hello to an user with color definition from the module backend params
+ */
+
+/**
+ * Implements hook_block_info()
+ */
+function helloblock_block_info() {
+    $blocks['helloblock'] = array(
+        "info" => t("My custom block"),
+        "cache" => DRUPAL_NO_CACHE
+    );
+
+    return $blocks;
+}
+
+/**
+ * Implements hook_block_view()
+ */
+function helloblock_block_view($delta = "") {
+    $block = array();
+
+    switch ($delta) {
+        case "helloblock":
+            $block["subject"] = t("Helloblock Subject");
+            $block["content"] = t("<b>Helloblock</b> content: \"Hello :)\"");
+            break;
+    }
+
+    return $block;
+}

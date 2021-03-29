@@ -1,0 +1,5 @@
+name = Helloblock
+description = Simple block module to say hello to an user with color definition from the module backend params
+core = 7.x
+configure = admin/config/helloblock
+stylesheets[all][] = helloblock.css
