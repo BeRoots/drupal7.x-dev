@@ -1,0 +1,154 @@
+<?php
+
+/**
+ * @file
+ * 
+ * Simple block module to say hello to an user with color definition from the
+ * module backend params
+ */
+
+/**
+ * Implements hook_help()
+ * 
+ * @see hook_help()
+ * 
+ * @param path string
+ *      With path of the site we're using to display help
+ * 
+ * @param arg array
+ *      Array that holds the current path as returned from arg() function
+ * 
+ * @return string translated content string
+ * 
+ * @ingroup hook
+ */
+function helloblock_help($path, $arg) {
+    switch ($path) {
+        case 'admin/help#helloblock':
+            return '<p id="helloblock-help">'
+                . t(
+                    "Helloblock: Configure me on <a href=\"@blocks\">"
+                    ."Blocks</a>",
+                    array(
+                        "@blocks" => url("admin/structure/block")
+                    )
+                ) . '</p>';
+            break;
+
+        case 'admin/structure/block':
+            return '<p id="helloblock-help">'
+                . t("Helloblock: Another help blabla...") . '</p>';
+            break;
+    }
+}
+
+/**
+ * Implements hook_permission()
+ * 
+ * @see hook_help()
+ * 
+ * @return array translated content string
+ * 
+ * @ingroup hook
+ */
+function helloblock_permission() {
+    return array(
+        "manager helloblock 1" => array(
+            "title" => t("First Helloblock permission functionnality"),
+            "description" => t(
+                "Perform administration tasks about this functionnality"
+                . " for Helloblock Module"
+            ),
+            "restrict access" => FALSE,
+            "warning" => t(
+                "My helloblock message override when 'restric access' is set to"
+                . " FALSE. Adding this in the description is most likely a "
+                . "good practice."
+            )
+        )
+    );
+}
+
+/**
+ * Implements hook_block_info()
+ * 
+ * @see hook_block_info()
+ * 
+ * @var $blocks array Array of blocks contains block informations
+ * 
+ * @return array $blocks
+ * 
+ * @ingroup hook
+ */
+function helloblock_block_info() {
+    $blocks['helloblock'] = array(
+        "info" => t("My custom block"),
+        "cache" => DRUPAL_NO_CACHE
+    );
+
+    return $blocks;
+}
+
+/**
+ * Implements hook_block_view()
+ * 
+ * @see hook_block_view()
+ * 
+ * @var $block array
+ *      Array of block informations
+ * 
+ * @return array $block
+ * 
+ * @ingroup hook
+ */
+function helloblock_block_view($delta = "") {
+    $block = array();
+
+    switch ($delta) {
+        case "helloblock":
+            $block["subject"] = t("Helloblock Subject");
+            $block["content"] = t('<b>Helloblock</b> content: "Hello :)"');
+            break;
+    }
+
+    return $block;
+}
+
+/**
+ * Implements hook_menu()
+ * 
+ * @see hook_menu()
+ * 
+ * @var $items array
+ *      Array of menu items informations
+ * 
+ * @return array $items
+ * 
+ * @ingroup hook
+ */
+function helloblock_menu() {
+    $items["hellopage"] = array(
+        "title" => t("My Hello Static Page"),
+        "type" => MENU_NORMAL_ITEM,
+        "page callback" => "helloblock_hellopage",
+        "access arguments" => array("access content")
+    );
+
+    return $items;
+}
+
+/**
+ * Hellopage callback function
+ * 
+ * @see helloblock_menu()
+ * 
+ * @return string 
+ * 
+ * @ingroup callback
+ */
+function helloblock_hellopage() {
+    return "<h1>" . l("Hello") . " 👋<h1>\n"
+        . "<p>"
+        . l("I'm a page of the helloschema module. I'm glade to see you here.")
+        . "</p>";
+}
