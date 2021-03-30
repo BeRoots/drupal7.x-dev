@@ -147,8 +147,8 @@ function helloblock_menu() {
  * @ingroup callback
  */
 function helloblock_hellopage() {
-    return "<h1>" . l("Hello") . " 👋<h1>\n"
+    return "<h1>" . t("Hello") . " 👋<h1>\n"
         . "<p>"
-        . l("I'm a page of the helloschema module. I'm glade to see you here.")
+        . t("I'm a page of the helloschema module. I'm glade to see you here.")
         . "</p>";
 }
