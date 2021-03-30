@@ -3,3 +3,4 @@ description = Simple block module to say hello to an user with color definition 
 core = 7.x
 configure = admin/config/helloblock
 stylesheets[all][] = helloblock.css
+stylesheets[print][] = helloblock-print.css
