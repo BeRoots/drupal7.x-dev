@@ -25,14 +25,17 @@
 function helloschema_help($path, $arg) {
     switch ($path) {
         case 'admin/help#helloschema':
-            return '<p id="helloschema-help">'
+            return '<div id="helloschema-help">'
                 . t(
-                    "helloschema: Configure me on <a href=\"@blocks\">"
-                    ."Blocks</a>",
+                    "<h1>helloschema:</h1>"
+                    . "<p>- Configure my block on <a href=\"@blocks\">"
+                    ."Blocks</a><br>- Configuration page on <a href=\"@cfg\">"
+                    ."Config/helloschema</a></p>",
                     array(
-                        "@blocks" => url("admin/structure/block")
+                        "@blocks" => url("admin/structure/block"),
+                        "@cfg" => url("admin/config/helloschema")
                     )
-                ) . '</p>';
+                ) . '</div>';
             break;
 
         case 'admin/structure/block':
@@ -134,6 +137,14 @@ function helloschema_menu() {
         "access arguments" => array("access content")
     );
 
+    $items["admin/config/helloschema"] = array(
+        "title" => t("Helloschema Settings Page"),
+        "type" => MENU_NORMAL_ITEM,
+        "page callback" => "drupal_get_form",
+        "page arguments" => array("helloschema_form"),
+        "access arguments" => array("access administration page")
+    );
+
     return $items;
 }
 
@@ -168,12 +179,19 @@ function helloschema_hellopage() {
  * 
  * @see hook_form()
  * 
- * @return string 
+ * @param $form array
+ *      An array that represent the form definition
+ * 
+ * @param $form_state array
+ *      Reference to the output array that respresent the form state
+ * 
+ * @return array
+ *      ???
  * 
  * @ingroup callback
  */
-function helloblock_form($form, &$form_state) {
-    $form["helloblock-title-color"] = array(
+function helloschema_form($form, &$form_state) {
+    $form["helloblock_title_color"] = array(
         "#type" => "textfield",
         "#title" => t("Title color for the helloschema page"),
         "#default_value" => "#000000",
