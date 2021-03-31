@@ -1,0 +1,24 @@
+{
+    "window.restoreWindows": "all",
+    "window.menuBarVisibility": "toggle",
+    "window.zoomLevel": -1,
+    "window.newWindowDimensions": "default",
+
+    "editor.fontSize": 14,
+    "terminal.integrated.fontSize": 10,
+    "markdown.preview.fontSize": 14,
+
+    "extensions.ignoreRecommendations": false,
+    // Multiplicateur à utiliser pour le 'deltaX' et le 'deltaY' des événements de défilement de la roulette de la souris
+    "editor.mouseWheelScrollSensitivity": 0.3,
+    "typescript.updateImportsOnFileMove.enabled": "never",
+    "workbench.colorTheme": "Solarized Light",
+
+    "editor.rulers": [80],
+    "files.associations": {
+        //Drupal 7
+        ".*module": "php",
+        ".*install": "php",
+        ".*inc": "php",
+    }
+}
