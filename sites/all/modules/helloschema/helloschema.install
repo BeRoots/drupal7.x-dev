@@ -36,8 +36,8 @@ function helloschema_schema() {
                 'not null' => TRUE,
                 'default' => '',
             ),
-            'alpha-2' => array(
-                "description" => "iso alpha-2 country code",
+            'alpha2' => array(
+                "description" => "alpha-2 country code",
                 'type' => 'varchar',
                 'length' => 2,
                 'not null' => TRUE,
@@ -47,46 +47,50 @@ function helloschema_schema() {
 /*        "indexes" => array(
 
         ),
-        "unique_keys" => array(
+        "unique keys" => array(
 
         ),*/
-        "foreign_keys" => array(
+        "foreign keys" => array(
             "helloschema_translation" => array(
                 "table" => "helloschema_translation",
                 "columns" => array("name" => "name")
             )
         ),
-        "primary_key" => array('id')
+        "primary key" => array('id')
     );
 
     $schema["helloschema_translation"] = array(
-        'id' => array(
-            "description" => "primary key",
-            'type' => 'serial',
-            'unsigned' => TRUE,
-            'not null' => TRUE,
+        "description" => "Translation table of the helloschema module",
+        "fields" => array(
+            'id' => array(
+                "description" => "primary key",
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'name' => array(
+                "description" => "country name",
+                'type' => 'varchar',
+                'length' => 52,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'translated_name' => array(
+                "description" => "country name",
+                'type' => 'varchar',
+                'length' => 52,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'translate_language' => array(
+                "description" => "iso alpha-2 country code",
+                'type' => 'varchar',
+                'length' => 2,
+                'not null' => TRUE,
+                'default' => '',
+            )
         ),
-        'name' => array(
-            "description" => "country name",
-            'type' => 'varchar',
-            'length' => 52,
-            'not null' => TRUE,
-            'default' => '',
-        ),
-        'translated_name' => array(
-            "description" => "country name",
-            'type' => 'varchar',
-            'length' => 52,
-            'not null' => TRUE,
-            'default' => '',
-        ),
-        'translate_language' => array(
-            "description" => "iso alpha-2 country code",
-            'type' => 'varchar',
-            'length' => 2,
-            'not null' => TRUE,
-            'default' => '',
-        ),
+        "primary key" => array('id')
     );
 
     return $schema;
@@ -106,26 +110,28 @@ function helloschema_schema() {
  */
 function helloschema_install() {
     // Loading information about world country
-    $xml = new SimpleXMLElement('./includes/iso-3166-country-codes-all.xml');
+    $xml = new SimpleXMLElement(__DIR__ . '/includes/iso-3166-country-codes-all.xml', NULL, TRUE);
 
     // Xpath Request about all names and alpha-2 country code and country count
-    $countryNames = $xml->xpath('string(/coutries/country/[@name])');
-    $countriesCount = count($countryNames);
-    $alpha2 = $xml->xpath('string(/coutries/country/@alpha-2)');
+    $countryNames = $xml->xpath('/countries/country/@name');
+    $alpha2 = $xml->xpath('/countries/country/@alpha-2');
 
     $values = array();
 
     foreach($countryNames as $key => $value) {
-        $values[0] .= array(
-            "name" => $value,
-            "alpha-2" => $alpha2[$key]
+        array_push(
+            $values,
+            array(
+                "name" => $value->__toString(),
+                "alpha2" => $alpha2[$key]->__toString()
+            )
         );
     }
 
     // build the insert query
     $query = db_insert("helloschema_countries")->fields(array(
         "name",
-        "alpha-2"
+        "alpha2"
     ));
 
     foreach ($values as $value) {

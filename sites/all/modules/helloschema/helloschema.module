@@ -82,7 +82,7 @@ function helloschema_permission() {
  */
 function helloschema_block_info() {
     $blocks['helloschema'] = array(
-        "info" => t("My custom block"),
+        "info" => t("My custom block (helloschema)"),
         "cache" => DRUPAL_NO_CACHE
     );
 
@@ -147,8 +147,31 @@ function helloschema_menu() {
  * @ingroup callback
  */
 function helloschema_hellopage() {
-    return "<h1>" . l("Hello") . " 👋<h1>\n"
+    return "<h1>" . t("Hello") . " 👋<h1>\n"
         . "<p>"
-        . l("I'm a page of the helloschema module. I'm glade to see you here.")
+        . t("I'm a page of the helloschema module. I'm glade to see you here.")
         . "</p>";
+}
+
+/**
+ * Implements hook_form()
+ * 
+ * @see hook_form()
+ * 
+ * @return string 
+ * 
+ * @ingroup callback
+ */
+function helloblock_form($form, &$form_state) {
+    $form["helloblock-title-color"] = array(
+        "#type" => "textfield",
+        "#title" => t("Title color for the helloschema page"),
+        "#default_value" => "#000000",
+        "#size" => 7,
+        "#maxlength" => 7,
+        "#description" => t("Select or fill a hexadecimal color value"),
+        "#required" => TRUE
+    );
+
+    return system_settings_form($form);
 }

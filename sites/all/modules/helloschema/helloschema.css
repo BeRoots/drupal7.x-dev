@@ -2,9 +2,9 @@
     width: 100%;
     border: 1px solid black;
     border-radius: 8px;
-    background-color: lightblue;
+    background-color: lightseagreen;
     padding: 7px;
 }
 #block-helloschema-helloschema div.content {
-    background-color: aqua;
+    background-color: lightgreen;
 }
