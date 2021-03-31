@@ -128,7 +128,7 @@ function helloschema_block_view($delta = "") {
  */
 function helloschema_menu() {
     $items["hellopage"] = array(
-        "title" => t("My Hello Static Page"),
+        "title" => t("My Helloschema Static Page"),
         "type" => MENU_NORMAL_ITEM,
         "page callback" => "helloschema_hellopage",
         "access arguments" => array("access content")
@@ -147,10 +147,20 @@ function helloschema_menu() {
  * @ingroup callback
  */
 function helloschema_hellopage() {
-    return "<h1>" . t("Hello") . " 👋<h1>\n"
-        . "<p>"
-        . t("I'm a page of the helloschema module. I'm glade to see you here.")
-        . "</p>";
+    $statement = db_select("helloschema_countries", 'hsc')
+        ->fields('hsc')
+        ->orderBy("name", "DESC")
+        ->execute();
+
+    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    $html = "<h1>Database result from helloschema_countries table:</h1>\n";
+
+    foreach($results as $record) {
+        $html .= "<li>" . $record["name"] . ' (' . $record["alpha2"] . ')</li>';
+    }
+
+    return $html;
 }
 
 /**
